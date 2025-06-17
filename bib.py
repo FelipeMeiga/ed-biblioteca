@@ -14,21 +14,21 @@ books = []
 for b in db['books']:
     books.append(Book.from_dict(b, author_map, publisher_map))
 
-print(f"{len(books)} livros carregados")
+print(f"{len(books)} books carregados")
 print("Autores disponíveis:", [a for a in author_map.values() if a.get_availability()])
-print("Editoras e quantos livros têm:", {p.name: len(p.books) for p in publisher_map.values()})
+print("Editoras e quantos books têm:", {p.name: len(p.books) for p in publisher_map.values()})
 
 #buscar título
-resultados = Book.buscar_livros(books, titulo="1984")
-for livro in resultados:
-    print(livro)
+results = Book.search_book(books, title="1984")
+for book in results:
+    print(book)
 
 #buscar autor
-resultados = Book.buscar_livros(books, autor="George Orwell")
-for livro in resultados:
-    print(livro)
+results = Book.search_book(books, author="George Orwell")
+for book in results:
+    print(book)
 
 #buscar ISBN
-resultados = Book.buscar_livros(books, isbn="9788501322994")
-for livro in resultados:
-    print(livro)
+results = Book.search_book(books, isbn="9788501322994")
+for book in results:
+    print(book)
