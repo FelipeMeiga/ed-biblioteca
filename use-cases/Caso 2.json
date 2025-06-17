@@ -1,0 +1,13 @@
+{
+    "success": true,
+    "message": "Login realizado com sucesso.",
+    "data": {
+        "user": {
+            "id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+            "login": "felipe@example.com",
+            "name": "Felipe Maia"
+        },
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…",
+        "expires_at": "2025-05-27T15:05:00-03:00"
+    }
+}

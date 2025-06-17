@@ -1,0 +1,20 @@
+{
+    "success": false,
+    "errors": [
+        {
+            "code": "RN1",
+            "field": "login",
+            "message": "O login deve ser um email válido contendo '@'."
+        },
+        {
+            "code": "RN2",
+            "field": "password",
+            "message": "O campo senha não pode estar vazio."
+        },
+        {
+            "code": "E2",
+            "field": null,
+            "message": "Não está cadastrado no sistema."
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "data": {
+    "modules": [
+      {
+        "key": "search",
+        "label": "Pesquisar livros",
+        "route": "/books/search"
+      },
+      {
+        "key": "categories",
+        "label": "Categorias",
+        "route": "/books/categories"
+      },
+      {
+        "key": "loans",
+        "label": "Meus empréstimos",
+        "route": "/user/loans"
+      },
+      {
+        "key": "reservations",
+        "label": "Minhas reservas",
+        "route": "/user/reservations"
+      },
+      {
+        "key": "history",
+        "label": "Histórico de leitura",
+        "route": "/user/history"
+      },
+      {
+        "key": "profile",
+        "label": "Perfil",
+        "route": "/user/profile"
+      }
+    ],
+    "categories": [
+      {
+        "id": "001",
+        "name": "Ficção",
+        "available_count": 12
+      },
+      {
+        "id": "002",
+        "name": "Não-ficção",
+        "available_count": 8
+      },
+      {
+        "id": "003",
+        "name": "Tecnologia",
+        "available_count": 5
+      }
+    ],
+    "summary": {
+      "active_loans_count": 2,
+      "reservations_count": 3,
+      "history_count": 15
+    },
+    "flags": {
+      "show_loans": true,
+      "show_reservations": true
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "success": true,
+  "data": {
+    "reservations": [
+      {
+        "reservation_id": "R-20250510-001",
+        "book": {
+          "id": "9788525054488",
+          "title": "Java: Como Programar"
+        },
+        "start_date": "2025-05-10",
+        "end_date": "2025-05-24",
+        "status": "expirada"
+      },
+      {
+        "reservation_id": "R-20250528-002",
+        "book": {
+          "id": "9788575224593",
+          "title": "Clean Code"
+        },
+        "start_date": "2025-05-28",
+        "end_date": "2025-06-11",
+        "status": "futura"
+      },
+      {
+        "reservation_id": "R-20250520-003",
+        "book": {
+          "id": "9788599291233",
+          "title": "Python para Data Science"
+        },
+        "start_date": "2025-05-20",
+        "end_date": "2025-06-03",
+        "status": "ativa"
+      }
+    ]
+  }
+}

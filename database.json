@@ -1,0 +1,414 @@
+{
+    "categories": [
+        {
+            "id": "C1",
+            "name": "Ficção"
+        },
+        {
+            "id": "C2",
+            "name": "Não-ficção"
+        },
+        {
+            "id": "C3",
+            "name": "Tecnologia"
+        },
+        {
+            "id": "C4",
+            "name": "História"
+        },
+        {
+            "id": "C5",
+            "name": "Autoajuda"
+        }
+    ],
+    "users": [
+        {
+            "id": "U1",
+            "login": "AnaSouza",
+            "name": "Ana Souza",
+            "created_at": "2025-01-10T09:00:00-03:00"
+        },
+        {
+            "id": "U2",
+            "login": "Carlos99",
+            "name": "Carlos Lima",
+            "created_at": "2025-02-15T14:30:00-03:00"
+        },
+        {
+            "id": "U3",
+            "login": "FelipeM",
+            "name": "Felipe Maia",
+            "created_at": "2025-03-01T11:20:00-03:00"
+        },
+        {
+            "id": "U4",
+            "login": "BeatrizR",
+            "name": "Beatriz Rocha",
+            "created_at": "2025-03-12T16:45:00-03:00"
+        },
+        {
+            "id": "U5",
+            "login": "JoaoP",
+            "name": "João Pereira",
+            "created_at": "2025-04-05T10:15:00-03:00"
+        },
+        {
+            "id": "U6",
+            "login": "LuizaC",
+            "name": "Luiza Costa",
+            "created_at": "2025-04-10T08:00:00-03:00"
+        },
+        {
+            "id": "U7",
+            "login": "MarcoT",
+            "name": "Marco Túlio",
+            "created_at": "2025-05-02T12:00:00-03:00"
+        },
+        {
+            "id": "U8",
+            "login": "RenataS",
+            "name": "Renata Silva",
+            "created_at": "2025-05-20T17:30:00-03:00"
+        }
+    ],
+    "books": [
+        {
+            "id": "B1",
+            "isbn": "9788525054488",
+            "title": "Java: Como Programar",
+            "authors": [
+                "Paul Deitel",
+                "Harvey Deitel"
+            ],
+            "year": 2018,
+            "publisher": "Pearson",
+            "categories": [
+                "C3"
+            ],
+            "total_copies": 5,
+            "available_copies": 2,
+            "average_rating": 4.3
+        },
+        {
+            "id": "B2",
+            "isbn": "9788575224593",
+            "title": "Clean Code",
+            "authors": [
+                "Robert C. Martin"
+            ],
+            "year": 2008,
+            "publisher": "Alta Books",
+            "categories": [
+                "C3"
+            ],
+            "total_copies": 3,
+            "available_copies": 0,
+            "average_rating": 4.6
+        },
+        {
+            "id": "B3",
+            "isbn": "9788599291233",
+            "title": "Python para Data Science",
+            "authors": [
+                "Felipe Martins"
+            ],
+            "year": 2021,
+            "publisher": "Novatec",
+            "categories": [
+                "C3"
+            ],
+            "total_copies": 4,
+            "available_copies": 1,
+            "average_rating": 4.1
+        },
+        {
+            "id": "B4",
+            "isbn": "9788501322994",
+            "title": "1984",
+            "authors": [
+                "George Orwell"
+            ],
+            "year": 1949,
+            "publisher": "Companhia das Letras",
+            "categories": [
+                "C1"
+            ],
+            "total_copies": 6,
+            "available_copies": 3,
+            "average_rating": 4.7
+        },
+        {
+            "id": "B5",
+            "isbn": "9788520922605",
+            "title": "Sapiens: Uma Breve História da Humanidade",
+            "authors": [
+                "Yuval Noah Harari"
+            ],
+            "year": 2011,
+            "publisher": "Companhia das Letras",
+            "categories": [
+                "C2",
+                "C4"
+            ],
+            "total_copies": 7,
+            "available_copies": 5,
+            "average_rating": 4.5
+        },
+        {
+            "id": "B6",
+            "isbn": "9788543107010",
+            "title": "Mindset: A Nova Psicologia do Sucesso",
+            "authors": [
+                "Carol S. Dweck"
+            ],
+            "year": 2006,
+            "publisher": "Objetiva",
+            "categories": [
+                "C5"
+            ],
+            "total_copies": 5,
+            "available_copies": 5,
+            "average_rating": 4.2
+        },
+        {
+            "id": "B7",
+            "isbn": "9788525061578",
+            "title": "O Senhor dos Anéis",
+            "authors": [
+                "J.R.R. Tolkien"
+            ],
+            "year": 1954,
+            "publisher": "HarperCollins",
+            "categories": [
+                "C1"
+            ],
+            "total_copies": 4,
+            "available_copies": 1,
+            "average_rating": 4.9
+        },
+        {
+            "id": "B8",
+            "isbn": "9788542200095",
+            "title": "O Poder do Hábito",
+            "authors": [
+                "Charles Duhigg"
+            ],
+            "year": 2012,
+            "publisher": "Objetiva",
+            "categories": [
+                "C5"
+            ],
+            "total_copies": 6,
+            "available_copies": 4,
+            "average_rating": 4.4
+        },
+        {
+            "id": "B9",
+            "isbn": "9788551001308",
+            "title": "Como Fazer Amigos e Influenciar Pessoas",
+            "authors": [
+                "Dale Carnegie"
+            ],
+            "year": 1936,
+            "publisher": "Imperial",
+            "categories": [
+                "C5"
+            ],
+            "total_copies": 5,
+            "available_copies": 2,
+            "average_rating": 4.0
+        },
+        {
+            "id": "B10",
+            "isbn": "9788522038131",
+            "title": "O Código Da Vinci",
+            "authors": [
+                "Dan Brown"
+            ],
+            "year": 2003,
+            "publisher": "Arqueiro",
+            "categories": [
+                "C1",
+                "C2"
+            ],
+            "total_copies": 4,
+            "available_copies": 0,
+            "average_rating": 3.8
+        }
+    ],
+    "reviews": [
+        {
+            "id": "R1",
+            "book_id": "B1",
+            "user_id": "U1",
+            "rating": 5,
+            "comment": "Excelente didática!",
+            "date": "2025-04-10"
+        },
+        {
+            "id": "R2",
+            "book_id": "B1",
+            "user_id": "U2",
+            "rating": 4,
+            "comment": "Muito bom, mas exemplos desatualizados.",
+            "date": "2025-02-21"
+        },
+        {
+            "id": "R3",
+            "book_id": "B2",
+            "user_id": "U3",
+            "rating": 5,
+            "comment": "Código limpo mudou meu jeito de programar.",
+            "date": "2025-03-18"
+        },
+        {
+            "id": "R4",
+            "book_id": "B3",
+            "user_id": "U4",
+            "rating": 4,
+            "comment": "Bom para iniciantes em ciência de dados.",
+            "date": "2025-05-01"
+        },
+        {
+            "id": "R5",
+            "book_id": "B4",
+            "user_id": "U5",
+            "rating": 5,
+            "comment": "Distopia incrível e atemporal.",
+            "date": "2025-01-30"
+        },
+        {
+            "id": "R6",
+            "book_id": "B5",
+            "user_id": "U6",
+            "rating": 4,
+            "comment": "Muito informativo sobre história humana.",
+            "date": "2025-04-12"
+        },
+        {
+            "id": "R7",
+            "book_id": "B6",
+            "user_id": "U7",
+            "rating": 4,
+            "comment": "Insight poderoso sobre mentalidade.",
+            "date": "2025-03-24"
+        },
+        {
+            "id": "R8",
+            "book_id": "B7",
+            "user_id": "U8",
+            "rating": 5,
+            "comment": "Clássico épico que todo mundo deve ler.",
+            "date": "2025-05-05"
+        },
+        {
+            "id": "R9",
+            "book_id": "B8",
+            "user_id": "U1",
+            "rating": 4,
+            "comment": "Ajuda a entender como criar hábitos.",
+            "date": "2025-02-28"
+        },
+        {
+            "id": "R10",
+            "book_id": "B9",
+            "user_id": "U2",
+            "rating": 4,
+            "comment": "Ótimas dicas de relacionamento interpessoal.",
+            "date": "2025-01-22"
+        },
+        {
+            "id": "R11",
+            "book_id": "B10",
+            "user_id": "U3",
+            "rating": 3,
+            "comment": "Entretenimento, mas falta profundidade.",
+            "date": "2025-04-20"
+        }
+    ],
+    "reservations": [
+        {
+            "id": "RES1",
+            "user_id": "U1",
+            "book_id": "B3",
+            "start_date": "2025-05-28",
+            "end_date": "2025-06-10",
+            "status": "futura",
+            "created_at": "2025-05-20T10:00:00-03:00"
+        },
+        {
+            "id": "RES2",
+            "user_id": "U2",
+            "book_id": "B1",
+            "start_date": "2025-05-10",
+            "end_date": "2025-05-24",
+            "status": "expirada",
+            "created_at": "2025-04-01T09:00:00-03:00"
+        },
+        {
+            "id": "RES3",
+            "user_id": "U3",
+            "book_id": "B5",
+            "start_date": "2025-06-01",
+            "end_date": "2025-06-15",
+            "status": "ativa",
+            "created_at": "2025-05-25T12:30:00-03:00"
+        },
+        {
+            "id": "RES4",
+            "user_id": "U4",
+            "book_id": "B2",
+            "start_date": "2025-06-05",
+            "end_date": "2025-06-20",
+            "status": "futura",
+            "created_at": "2025-05-22T14:45:00-03:00"
+        },
+        {
+            "id": "RES5",
+            "user_id": "U5",
+            "book_id": "B7",
+            "start_date": "2025-05-15",
+            "end_date": "2025-05-30",
+            "status": "ativa",
+            "created_at": "2025-05-10T11:10:00-03:00"
+        }
+    ],
+    "loans": [
+        {
+            "id": "L1",
+            "user_id": "U1",
+            "book_id": "B4",
+            "loan_date": "2025-04-15",
+            "due_date": "2025-05-15",
+            "return_date": "2025-05-10",
+            "status": "devolvido"
+        },
+        {
+            "id": "L2",
+            "user_id": "U2",
+            "book_id": "B6",
+            "loan_date": "2025-03-01",
+            "due_date": "2025-04-01",
+            "return_date": "2025-03-28",
+            "status": "devolvido"
+        },
+        {
+            "id": "L3",
+            "user_id": "U3",
+            "book_id": "B1",
+            "loan_date": "2025-05-01",
+            "due_date": "2025-06-01",
+            "return_date": null,
+            "status": "ativo"
+        },
+        {
+            "id": "L4",
+            "user_id": "U4",
+            "book_id": "B8",
+            "loan_date": "2025-04-20",
+            "due_date": "2025-05-20",
+            "return_date": null,
+            "status": "ativo"
+        }
+    ]
+}

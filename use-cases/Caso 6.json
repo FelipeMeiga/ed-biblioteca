@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "data": {
+    "reservation_id": "R-20250527-045",
+    "user_id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+    "book": {
+      "id": "9788525054488",
+      "title": "Java: Como Programar"
+    },
+    "start_date": "2025-06-01",
+    "end_date": "2025-06-15",
+    "status": "ativa",
+    "created_at": "2025-05-27T13:15:00-03:00"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": {
+    "total": 3,
+    "books": [
+      {
+        "id": "9788525054488",
+        "title": "Java: Como Programar",
+        "authors": ["Paul Deitel", "Harvey Deitel"],
+        "year": 2018,
+        "publisher": "Pearson",
+        "average_rating": 4.3,
+        "available_copies": 2
+      },
+      {
+        "id": "9788575224593",
+        "title": "Clean Code",
+        "authors": ["Robert C. Martin"],
+        "year": 2008,
+        "publisher": "Alta Books",
+        "average_rating": 4.6,
+        "available_copies": 0
+      },
+      {
+        "id": "9788599291233",
+        "title": "Python para Data Science",
+        "authors": ["Felipe Martins"],
+        "year": 2021,
+        "publisher": "Novatec",
+        "average_rating": 4.1,
+        "available_copies": 5
+      }
+    ]
+  }
+}
