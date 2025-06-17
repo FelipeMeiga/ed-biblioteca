@@ -34,6 +34,17 @@ class Book:
     def get_availability(self) -> bool:
         return self.available_copies > 0
 
+    @staticmethod
+    def buscar_livros(books, titulo=None, isbn=None, autor=None):
+        resultados = books
+        if titulo:
+            resultados = [b for b in resultados if titulo.lower() in b.title.lower()]
+        if isbn:
+            resultados = [b for b in resultados if isbn == b.isbn]
+        if autor:
+            resultados = [b for b in resultados if any(autor.lower() in a.name.lower() for a in b.authors)]
+        return resultados
+
     @classmethod
     def from_dict(cls, data: Dict, author_map: Dict[str, Author], publisher_map: Dict[str, Publisher] ) -> Book:
         pub_name = data['publisher']
@@ -61,3 +72,4 @@ class Book:
 
     def __repr__(self) -> str:
         return f"<Book {self.id}: {self.title}>"
+
