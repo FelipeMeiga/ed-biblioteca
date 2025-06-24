@@ -73,3 +73,17 @@ class Book:
     def __repr__(self) -> str:
         return f"<Book {self.id}: {self.title}>"
 
+   # return every information about the book
+    def detalhes(self) -> str:
+        autores = ", ".join([a.name for a in self.authors])
+        return (
+            f"Título: {self.title}\n"
+            f"ISBN: {self.isbn}\n"
+            f"Autores: {autores}\n"
+            f"Ano: {self.year}\n"
+            f"Editora: {self.publisher.name}\n"
+            f"Total de cópias: {self.total_copies}\n"
+            f"Cópias disponíveis: {self.available_copies}\n"
+            f"Avaliação média: {self.average_rating}\n"
+            "-----------------------------"
+        )

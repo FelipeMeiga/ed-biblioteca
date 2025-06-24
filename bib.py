@@ -51,6 +51,8 @@ books = []
 for b in db['books']:
     books.append(Book.from_dict(b, author_map, publisher_map))
 
+# ...existing code...
+
 def buscar():
     criterio = criterio_var.get()
     valor = entrada.get()
@@ -62,18 +64,23 @@ def buscar():
         resultados = Book.search_book(books, isbn=valor)
     else:
         resultados = []
-    lista_resultados.delete(0, tk.END)
+    texto_resultados.config(state=tk.NORMAL)
+    texto_resultados.delete(1.0, tk.END)
     if resultados:
         for livro in resultados:
-            lista_resultados.insert(tk.END, str(livro))
+            texto_resultados.insert(tk.END, livro.detalhes() + "\n")
     else:
-        lista_resultados.insert(tk.END, "Nenhum livro encontrado.")
+        texto_resultados.insert(tk.END, "Nenhum livro encontrado.\n")
+    texto_resultados.config(state=tk.DISABLED)
 
 def listar_todos():
-    lista_resultados.delete(0, tk.END)
+    texto_resultados.config(state=tk.NORMAL)
+    texto_resultados.delete(1.0, tk.END)
     for livro in books:
-        lista_resultados.insert(tk.END, str(livro))
+        texto_resultados.insert(tk.END, livro.detalhes() + "\n")
+    texto_resultados.config(state=tk.DISABLED)
 
+#GUI setup
 root = tk.Tk()
 root.title("Biblioteca")
 
@@ -95,7 +102,8 @@ buscar_btn.grid(row=0, column=3, padx=5)
 listar_btn = ttk.Button(frame, text="Listar todos", command=listar_todos)
 listar_btn.grid(row=0, column=4, padx=5)
 
-lista_resultados = tk.Listbox(frame, width=80, height=15)
-lista_resultados.grid(row=1, column=0, columnspan=5, pady=10)
+texto_resultados = tk.Text(frame, width=80, height=20, wrap=tk.WORD)
+texto_resultados.grid(row=1, column=0, columnspan=5, pady=10)
+texto_resultados.config(state=tk.DISABLED)
 
 root.mainloop()
