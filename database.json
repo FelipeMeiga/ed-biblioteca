@@ -138,6 +138,22 @@
             "average_rating": 4.7
         },
         {
+            "id": "B111",
+            "isbn": "9788501322345",
+            "title": "A revoluçao dos bichos",
+            "authors": [
+                "George Orwell"
+            ],
+            "year": 1949,
+            "publisher": "Companhia das Letras",
+            "categories": [
+                "C1"
+            ],
+            "total_copies": 6,
+            "available_copies": 3,
+            "average_rating": 4.7
+        },
+        {
             "id": "B5",
             "isbn": "9788520922605",
             "title": "Sapiens: Uma Breve História da Humanidade",
@@ -221,7 +237,7 @@
         {
             "id": "B10",
             "isbn": "9788522038131",
-            "title": "O Código Da Vinci",
+            "title": "O Codigo Da Vinci",
             "authors": [
                 "Dan Brown"
             ],

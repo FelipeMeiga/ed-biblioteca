@@ -1,6 +1,7 @@
-# book.py
 from __future__ import annotations
 from typing import Dict, List
+import json
+from pathlib import Path
 from author import Author
 from publisher import Publisher
 
@@ -17,13 +18,13 @@ class Book:
         available_copies: int,
         average_rating: float
     ) -> None:
-        self.id: str               = book_id
-        self.isbn: str             = isbn
-        self.title: str            = title
-        self.year: int             = year
-        self.publisher: Publisher  = publisher
+        self.id: str = book_id
+        self.isbn: str = isbn
+        self.title: str = title
+        self.year: int = year
+        self.publisher: Publisher = publisher
         self.authors: List[Author] = authors
-        self.total_copies: int     = total_copies
+        self.total_copies: int = total_copies
         self.available_copies: int = available_copies
         self.average_rating: float = average_rating
 
@@ -35,18 +36,45 @@ class Book:
         return self.available_copies > 0
 
     @staticmethod
-    def search_book(books, title=None, isbn=None, author=None):
-        results = books
-        if title:
-            results = [b for b in results if title.lower() in b.title.lower()]
-        if isbn:
-            results = [b for b in results if isbn == b.isbn]
-        if author:
-            results = [b for b in results if any(author.lower() in a.name.lower() for a in b.authors)]
-        return results
+    def search_book(
+        books: list[Book],
+        query: str = "",
+        field: str = "general"
+    ) -> list[Book]:
+        q = query.strip().lower()
+        if not q:
+            return books
+
+        if field == "title":
+            return [b for b in books if q in b.title.lower()]
+
+        if field == "isbn":
+            return [b for b in books if q == b.isbn.lower()]
+
+        if field == "author":
+            return [
+                b for b in books
+                if any(q in a.name.lower() for a in b.authors)
+            ]
+
+        return [
+            b for b in books
+            if (
+                q in b.title.lower()
+                or q in b.isbn.lower()
+                or any(q in a.name.lower() for a in b.authors)
+                or q in b.publisher.name.lower()
+                or (hasattr(b, "category") and q in b.category.lower())
+            )
+        ]
 
     @classmethod
-    def from_dict(cls, data: Dict, author_map: Dict[str, Author], publisher_map: Dict[str, Publisher] ) -> Book:
+    def from_dict(
+        cls,
+        data: Dict,
+        author_map: Dict[str, Author],
+        publisher_map: Dict[str, Publisher]
+    ) -> Book:
         pub_name = data['publisher']
         if pub_name not in publisher_map:
             publisher_map[pub_name] = Publisher.from_name(pub_name)
@@ -58,7 +86,7 @@ class Book:
                 author_map[name] = Author.from_name(name)
             authors.append(author_map[name])
 
-        return cls(
+        book = cls(
             book_id=data['id'],
             isbn=data['isbn'],
             title=data['title'],
@@ -69,21 +97,50 @@ class Book:
             available_copies=data['available_copies'],
             average_rating=data.get('average_rating', 0.0)
         )
+        if 'category' in data:
+            book.category = data['category']
+        return book
+
+    @classmethod
+    def register_book(
+        cls,
+        data_path: Path,
+        data: Dict,
+        author_map: Dict[str, Author],
+        publisher_map: Dict[str, Publisher]
+    ) -> Book:
+        text = data_path.read_text(encoding="utf-8")
+        db = json.loads(text) if text.strip() else {}
+        
+        books_list = db.get('books', [])
+        books_list.append(data)
+        db['books'] = books_list
+        
+        data_path.write_text(
+            json.dumps(db, ensure_ascii=False, indent=4),
+            encoding="utf-8"
+        )
+        
+        return cls.from_dict(data, author_map, publisher_map)
 
     def __repr__(self) -> str:
         return f"<Book {self.id}: {self.title}>"
 
-   # return every information about the book
     def detalhes(self) -> str:
         autores = ", ".join([a.name for a in self.authors])
-        return (
+        detalhes = (
             f"Título: {self.title}\n"
             f"ISBN: {self.isbn}\n"
             f"Autores: {autores}\n"
             f"Ano: {self.year}\n"
             f"Editora: {self.publisher.name}\n"
+        )
+        if hasattr(self, "category"):
+            detalhes += f"Categoria: {self.category}\n"
+        detalhes += (
             f"Total de cópias: {self.total_copies}\n"
             f"Cópias disponíveis: {self.available_copies}\n"
             f"Avaliação média: {self.average_rating}\n"
             "-----------------------------"
         )
+        return detalhes

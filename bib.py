@@ -1,109 +1,89 @@
 import json
-from typing import Dict
+from pathlib import Path
+
+import streamlit as st
+
 from author import Author
 from publisher import Publisher
 from book import Book
 
-with open('database.json', encoding='utf-8') as f:
-    db = json.load(f)
+# --- Carrega dados ---
+BASE_DIR = Path(__file__).parent
+DB_PATH = BASE_DIR / "database.json"
+if not DB_PATH.exists():
+    DB_PATH.write_text(json.dumps({"books": []}, ensure_ascii=False, indent=4), encoding="utf-8")
 
-author_map: Dict[str, Author] = {}
-publisher_map: Dict[str, Publisher] = {}
+author_map: dict[str, Author] = {}
+publisher_map: dict[str, Publisher] = {}
+books: list[Book] = []
 
-books = []
-for b in db['books']:
-    books.append(Book.from_dict(b, author_map, publisher_map))
+# Carrega instâncias
+for entry in json.loads(DB_PATH.read_text(encoding="utf-8")).get("books", []):
+    books.append(Book.from_dict(entry, author_map, publisher_map))
 
-print(f"{len(books)} books carregados")
-print("Autores disponíveis:", [a for a in author_map.values() if a.get_availability()])
-print("Editoras e quantos books têm:", {p.name: len(p.books) for p in publisher_map.values()})
+# --- UI Streamlit ---
+st.set_page_config(page_title="Biblioteca", layout="wide")
+st.title("📚 Biblioteca")
 
-#buscar título
-results = Book.search_book(books, title="1984")
-for book in results:
-    print(book)
+# Painel lateral
+with st.sidebar:
+    criterio = st.selectbox("Buscar por:", ["Geral", "Título", "Autor", "ISBN"], index=0)
+    valor = st.text_input("Valor de busca")
+    buscar = st.button("🔍 Buscar")
+    listar_todos = st.button("📋 Listar todos")
+    registrar = st.button("➕ Registrar livro")
 
-#buscar autor
-results = Book.search_book(books, author="George Orwell")
-for book in results:
-    print(book)
+if registrar:
+    st.subheader("Registrar novo livro")
+    with st.form("form_registrar"):
+        new_id = st.text_input("ID")
+        new_isbn = st.text_input("ISBN")
+        new_title = st.text_input("Título")
+        new_year = st.number_input("Ano", min_value=0, value=2025)
+        new_publisher = st.text_input("Editora")
+        new_authors = st.text_input("Autores (separados por vírgula)")
+        new_total = st.number_input("Total de cópias", min_value=0, value=1)
+        new_available = st.number_input("Cópias disponíveis", min_value=0, value=1)
+        new_rating = st.number_input("Avaliação média", min_value=0.0, value=0.0, format="%.2f")
+        new_category = st.text_input("Categoria (opcional)")
+        submitted = st.form_submit_button("Registrar")
+    if submitted:
+        authors_list = [a.strip() for a in new_authors.split(",") if a.strip()]
+        record = {
+            "id": new_id,
+            "isbn": new_isbn,
+            "title": new_title,
+            "year": int(new_year),
+            "publisher": new_publisher,
+            "authors": authors_list,
+            "total_copies": int(new_total),
+            "available_copies": int(new_available),
+            "average_rating": float(new_rating)
+        }
+        if new_category:
+            record["category"] = new_category
+        try:
+            new_book = Book.register_book(DB_PATH, record, author_map, publisher_map)
+            books.append(new_book)
+            st.success("Livro registrado com sucesso!")
+        except Exception as e:
+            st.error(f"Erro ao registrar livro: {e}")
 
-#buscar ISBN
-results = Book.search_book(books, isbn="9788501322994")
-for book in results:
-    print(book)
-
-import json
-from typing import Dict
-from author import Author
-from publisher import Publisher
-from book import Book
-import tkinter as tk
-from tkinter import ttk, messagebox
-
-with open('database.json', encoding='utf-8') as f:
-    db = json.load(f)
-
-author_map: Dict[str, Author] = {}
-publisher_map: Dict[str, Publisher] = {}
-
-books = []
-for b in db['books']:
-    books.append(Book.from_dict(b, author_map, publisher_map))
-
-# ...existing code...
-
-def buscar():
-    criterio = criterio_var.get()
-    valor = entrada.get()
-    if criterio == "Título":
-        resultados = Book.search_book(books, title=valor)
-    elif criterio == "Autor":
-        resultados = Book.search_book(books, author=valor)
-    elif criterio == "ISBN":
-        resultados = Book.search_book(books, isbn=valor)
-    else:
-        resultados = []
-    texto_resultados.config(state=tk.NORMAL)
-    texto_resultados.delete(1.0, tk.END)
+elif buscar:
+    field_map = {"Geral": "general", "Título": "title", "Autor": "author", "ISBN": "isbn"}
+    field = field_map.get(criterio, "general")
+    resultados = Book.search_book(books, query=valor, field=field)
+    st.subheader(f"Resultados para {criterio} = '{valor}':")
     if resultados:
         for livro in resultados:
-            texto_resultados.insert(tk.END, livro.detalhes() + "\n")
+            st.markdown(livro.detalhes().replace("\n", "  \n"))
     else:
-        texto_resultados.insert(tk.END, "Nenhum livro encontrado.\n")
-    texto_resultados.config(state=tk.DISABLED)
+        st.info("Nenhum livro encontrado.")
 
-def listar_todos():
-    texto_resultados.config(state=tk.NORMAL)
-    texto_resultados.delete(1.0, tk.END)
+elif listar_todos:
+    st.subheader("Todos os livros:")
     for livro in books:
-        texto_resultados.insert(tk.END, livro.detalhes() + "\n")
-    texto_resultados.config(state=tk.DISABLED)
+        st.markdown(livro.detalhes().replace("\n", "  \n"))
 
-#GUI setup
-root = tk.Tk()
-root.title("Biblioteca")
-
-frame = ttk.Frame(root, padding=10)
-frame.pack(fill=tk.BOTH, expand=True)
-
-criterio_var = tk.StringVar(value="Título")
-criterios = ["Título", "Autor", "ISBN"]
-ttk.Label(frame, text="Buscar por:").grid(row=0, column=0, sticky="w")
-criterio_menu = ttk.OptionMenu(frame, criterio_var, criterios[0], *criterios)
-criterio_menu.grid(row=0, column=1, sticky="ew")
-
-entrada = ttk.Entry(frame, width=30)
-entrada.grid(row=0, column=2, padx=5)
-
-buscar_btn = ttk.Button(frame, text="Buscar", command=buscar)
-buscar_btn.grid(row=0, column=3, padx=5)
-
-listar_btn = ttk.Button(frame, text="Listar todos", command=listar_todos)
-listar_btn.grid(row=0, column=4, padx=5)
-
-texto_resultados = tk.Text(frame, width=80, height=20, wrap=tk.WORD)
-texto_resultados.grid(row=1, column=0, columnspan=5, pady=10)
-texto_resultados.config(state=tk.DISABLED)
-
-root.mainloop()
+else:
+    st.write("Use a barra lateral para buscar, listar ou registrar livros.")
