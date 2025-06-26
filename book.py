@@ -88,6 +88,9 @@ class Book:
                 author_map[name] = Author.from_name(name)
             authors.append(author_map[name])
 
+        # Garante compatibilidade com ambos os campos: 'reservations' e 'reservas'
+        reservations = data.get('reservations', data.get('reservas', []))
+
         book = cls(
             book_id=data['id'],
             isbn=data['isbn'],
@@ -98,7 +101,7 @@ class Book:
             total_copies=data['total_copies'],
             available_copies=data['available_copies'],
             average_rating=data.get('average_rating', 0.0),
-            reservations=data.get('reservations', [])
+            reservations=reservations
         )
         if 'category' in data:
             book.category = data['category']

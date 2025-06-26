@@ -32,6 +32,8 @@ with st.sidebar:
     buscar = st.button("🔍 Buscar")
     listar_todos = st.button("📋 Listar todos")
     registrar = st.button("➕ Registrar livro")
+    ver_reservados = st.button(" Ver livros reservados")  # Novo botão
+
 
 if registrar:
     st.subheader("Registrar novo livro")
@@ -76,15 +78,39 @@ elif buscar:
     st.subheader(f"Resultados para {criterio} = '{valor}':")
     if resultados:
         for livro in resultados:
-            st.markdown(livro.detalhes().replace("\n", "  \n"))
+            with st.expander(livro.title):
+                st.markdown(livro.detalhes().replace("\n", "  \n"))
+                user_res = st.text_input(f"Seu nome para reservar [{livro.id}]", key=f"user_res_{livro.id}")
+                if st.button("Reservar este livro", key=f"btn_res_{livro.id}"):
+                    if livro.reserve(user_res, DB_PATH):
+                        st.success("Reserva realizada com sucesso!")
+                    else:
+                        st.error("Não foi possível reservar (sem cópias disponíveis ou já reservado por você).")
     else:
         st.info("Nenhum livro encontrado.")
 
 elif listar_todos:
     st.subheader("Todos os livros:")
     for livro in books:
-        st.markdown(livro.detalhes().replace("\n", "  \n"))
-
+        with st.expander(livro.title):
+            st.markdown(livro.detalhes().replace("\n", "  \n"))
+            user_res = st.text_input(f"Seu nome para reservar [{livro.id}]", key=f"user_res_{livro.id}")
+            if st.button("Reservar este livro", key=f"btn_res_{livro.id}"):
+                if livro.reserve(user_res, DB_PATH):
+                    st.success("Reserva realizada com sucesso!")
+                else:
+                    st.error("Não foi possível reservar (sem cópias disponíveis ou já reservado por você).")
+elif ver_reservados:
+    st.subheader("Livros reservados:")
+    reservados = [livro for livro in books if getattr(livro, "reservations", None)]
+    if reservados:
+        for livro in reservados:
+            if hasattr(livro, "reservations") and livro.reservations:
+                with st.expander(livro.title):
+                    st.markdown(livro.detalhes().replace("\n", "  \n"))
+                    st.markdown(f"**Reservado por:** {', '.join(livro.reservations)}")
+    else:
+        st.info("Nenhum livro reservado.")
 else:
     st.write("Use a barra lateral para buscar, listar ou registrar livros.")
 

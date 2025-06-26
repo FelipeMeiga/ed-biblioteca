@@ -150,8 +150,11 @@
                 "C1"
             ],
             "total_copies": 6,
-            "available_copies": 3,
-            "average_rating": 4.7
+            "available_copies": 2,
+            "average_rating": 4.7,
+            "reservations": [
+                "AnaSouza"
+            ]
         },
         {
             "id": "B5",
