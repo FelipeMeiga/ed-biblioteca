@@ -16,7 +16,8 @@ class Book:
         authors: List[Author],
         total_copies: int,
         available_copies: int,
-        average_rating: float
+        average_rating: float,
+        reservations: list[str] = None
     ) -> None:
         self.id: str = book_id
         self.isbn: str = isbn
@@ -27,6 +28,7 @@ class Book:
         self.total_copies: int = total_copies
         self.available_copies: int = available_copies
         self.average_rating: float = average_rating
+        self.reservations: list[str] = reservations if reservations is not None else []
 
         self.publisher.add_book(self)
         for a in self.authors:
@@ -37,10 +39,10 @@ class Book:
 
     @staticmethod
     def search_book(
-        books: list[Book],
+        books: list["Book"],
         query: str = "",
         field: str = "general"
-    ) -> list[Book]:
+    ) -> list["Book"]:
         q = query.strip().lower()
         if not q:
             return books
@@ -74,7 +76,7 @@ class Book:
         data: Dict,
         author_map: Dict[str, Author],
         publisher_map: Dict[str, Publisher]
-    ) -> Book:
+    ) -> "Book":
         pub_name = data['publisher']
         if pub_name not in publisher_map:
             publisher_map[pub_name] = Publisher.from_name(pub_name)
@@ -95,7 +97,8 @@ class Book:
             authors=authors,
             total_copies=data['total_copies'],
             available_copies=data['available_copies'],
-            average_rating=data.get('average_rating', 0.0)
+            average_rating=data.get('average_rating', 0.0),
+            reservations=data.get('reservations', [])
         )
         if 'category' in data:
             book.category = data['category']
@@ -108,20 +111,46 @@ class Book:
         data: Dict,
         author_map: Dict[str, Author],
         publisher_map: Dict[str, Publisher]
-    ) -> Book:
+    ) -> "Book":
         text = data_path.read_text(encoding="utf-8")
         db = json.loads(text) if text.strip() else {}
-        
+
         books_list = db.get('books', [])
+        if "reservations" not in data:
+            data["reservations"] = []
         books_list.append(data)
         db['books'] = books_list
-        
+
         data_path.write_text(
             json.dumps(db, ensure_ascii=False, indent=4),
             encoding="utf-8"
         )
-        
+
         return cls.from_dict(data, author_map, publisher_map)
+
+    def reserve(self, user: str, db_path: Path) -> bool:
+        if self.available_copies > 0 and user not in self.reservations:
+            self.reservations.append(user)
+            self.available_copies -= 1
+            self._update_json(db_path)
+            return True
+        return False
+
+    def cancel_reservation(self, user: str, db_path: Path) -> bool:
+        if user in self.reservations:
+            self.reservations.remove(user)
+            self.available_copies += 1
+            self._update_json(db_path)
+            return True
+        return False
+
+    def _update_json(self, db_path: Path) -> None:
+        db = json.loads(db_path.read_text(encoding="utf-8"))
+        for b in db.get("books", []):
+            if b["id"] == self.id:
+                b["available_copies"] = self.available_copies
+                b["reservations"] = self.reservations
+        db_path.write_text(json.dumps(db, ensure_ascii=False, indent=4), encoding="utf-8")
 
     def __repr__(self) -> str:
         return f"<Book {self.id}: {self.title}>"
@@ -141,6 +170,8 @@ class Book:
             f"Total de cópias: {self.total_copies}\n"
             f"Cópias disponíveis: {self.available_copies}\n"
             f"Avaliação média: {self.average_rating}\n"
-            "-----------------------------"
         )
+        if self.reservations:
+            detalhes += f"Reservas: {', '.join(self.reservations)}\n"
+        detalhes += "-----------------------------"
         return detalhes

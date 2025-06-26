@@ -87,3 +87,29 @@ elif listar_todos:
 
 else:
     st.write("Use a barra lateral para buscar, listar ou registrar livros.")
+
+# --- Sistema de reserva persistente ---
+st.subheader("Reservar ou cancelar reserva de livro")
+user_name = st.text_input("Seu nome para reserva/cancelamento")
+book_id_res = st.text_input("ID do livro para reservar/cancelar")
+col1, col2 = st.columns(2)
+with col1:
+    if st.button("Reservar livro"):
+        livro = next((b for b in books if b.id == book_id_res), None)
+        if livro:
+            if livro.reserve(user_name, DB_PATH):
+                st.success("Reserva realizada com sucesso!")
+            else:
+                st.error("Não foi possível reservar (sem cópias disponíveis ou já reservado por você).")
+        else:
+            st.error("Livro não encontrado.")
+with col2:
+    if st.button("Cancelar reserva"):
+        livro = next((b for b in books if b.id == book_id_res), None)
+        if livro:
+            if livro.cancel_reservation(user_name, DB_PATH):
+                st.success("Reserva cancelada com sucesso!")
+            else:
+                st.error("Reserva não encontrada para este usuário.")
+        else:
+            st.error("Livro não encontrado.")
